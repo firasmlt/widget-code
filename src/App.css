@@ -1,38 +1,127 @@
-.App {
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Roboto");
+
+:root {
+  --main-color: #5271ff;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.superuser_bg {
+  background-color: rgba(237, 237, 237);
+  font-family: "Roboto";
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.superuser_card {
+  font-family: "Roboto";
+  height: 400px;
+  width: 400px;
+  background-color: var(--main-color);
+  border-radius: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: space-around;
+  position: relative;
+}
+
+.superuser_form {
+  font-family: "Roboto";
+  text-align: center;
+  color: white;
+  height: 100%;
+  padding: 10px 0px;
+  width: 80%;
+}
+.superuser_card > div {
+  font-family: "Roboto";
+  text-align: center;
   color: white;
 }
-
-.App-link {
-  color: #61dafb;
+.superuser_card > div > h1 {
+  font-family: "Roboto";
+  font-size: 40px;
+}
+.superuser_input {
+  font-family: "Roboto";
+  border: none;
+  border-radius: 10px;
+  padding: 10px 10px;
+  color: var(--main-color);
+  outline: none;
+}
+.superuser_input::placeholder {
+  font-family: "Roboto";
+  color: var(--main-color);
+}
+.superuser_name {
+  font-family: "Roboto";
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.superuser_name_input {
+  font-family: "Roboto";
+  width: 40%;
+}
+.superuser_email_input,
+.superuser_number_input {
+  font-family: "Roboto";
+  width: 93.6%;
+  margin-bottom: 10px;
+}
+.superuser_submit {
+  font-family: "Roboto";
+  color: var(--main-color);
+  background-color: rgb(255, 255, 255);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  margin-top: 30px;
+  cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.superuser_question_form {
+  font-family: "Roboto";
+  height: 200px;
+  padding: 20px;
+}
+.superuser_question_form > label {
+  font-family: "Roboto";
+  color: white;
+  font-size: 20px;
+}
+.superuser_question_form > textarea {
+  font-family: "Roboto";
+  border: none;
+  outline: none;
+  width: 300px;
+  margin: 10px 0;
+  height: 50%;
+  padding: 10px;
+}
+.superuser_question_form > textarea::placeholder {
+  font-family: "Roboto";
+  color: var(--main-color);
+}
+
+.superuser_question_form > input {
+  font-family: "Roboto";
+  color: var(--main-color);
+  background-color: rgb(255, 255, 255);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+}
+
+.superuser_progress {
+  color: white;
+  margin-top: 20px;
+  position: absolute;
+  bottom: 15px;
+  right: 30px;
 }
