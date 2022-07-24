@@ -6,8 +6,8 @@ const WidgetDivs = document.querySelectorAll(".superuser_widget");
 WidgetDivs.forEach((widget) => {
   const root = ReactDOM.createRoot(widget);
   root.render(
-    <React.StrictMode>
+    // <React.StrictMode>
       <App docElement={widget} />
-    </React.StrictMode>
+    // </React.StrictMode> 
   );
 });
