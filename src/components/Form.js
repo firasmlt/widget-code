@@ -1,7 +1,16 @@
 import React from "react";
 import Card from "./UI/Card";
 
-function Form({ submitHandler, formMessage }) {
+function Form({ submitHandler, formMessage, setFormMessage }) {
+  const onChangeHandler = (e) => {
+    if (e.target.value.trim() !== "") {
+      setFormMessage("");
+      e.target.classList.remove("superuser_form_error");
+    } else {
+      e.target.classList.add("superuser_form_error");
+    }
+  };
+
   return (
     <Card>
       <div>
@@ -15,30 +24,29 @@ function Form({ submitHandler, formMessage }) {
       <form onSubmit={submitHandler} className="superuser_form">
         <div className="superuser_name">
           <input
+            onChange={onChangeHandler}
             type="text"
             placeholder="First Name"
             className="superuser_input superuser_name_input superuser_firstname"
-            required
           />
           <input
+            onChange={onChangeHandler}
             type="text"
             placeholder="Last Name"
             className="superuser_input superuser_name_input superuser_lastname"
-            required
           />
         </div>
         <input
-          type="email"
+          onChange={onChangeHandler}
+          type="text"
           placeholder="Email address"
           className="superuser_input superuser_email_input"
-          required
         />
         <input
-          type="tel"
-          pattern="\(\d{3}\)[ ]?\d{3}[-]?\d{4}"
+          onChange={onChangeHandler}
+          type="text"
           placeholder="Phone number (xxx)xxx-xxxx "
           className="superuser_input superuser_number_input"
-          required
         />
         <input type="submit" value="Submit" className="superuser_submit" />
       </form>

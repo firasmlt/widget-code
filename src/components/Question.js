@@ -1,16 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 
 function Question({ text, answeredHandler, totalNumber, currentNumber }) {
+  const [message, setMessage] = useState("");
   return (
-    <form onSubmit={answeredHandler} className="superuser_question_form">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (
+          document.querySelector(".superuser_answer").value.trim().length < 10
+        ) {
+          setMessage("your answer must be at least 10 caracters long.");
+          return;
+        }
+        setMessage("");
+        answeredHandler(e);
+      }}
+      className="superuser_question_form"
+    >
       <label className="superuser_question">
         {text.toLowerCase().replace(/\?/g, "")}?
       </label>
       <textarea
         className="superuser_answer"
         placeholder="Write your answer here"
-        required
       ></textarea>
+      <p className="superuser_error_message">{message}</p>
       <input type="submit" value="submit" className="superuser_submit" />
       <div className="superuser_progress">{`${currentNumber}/${totalNumber}`}</div>
     </form>

@@ -8,11 +8,9 @@ function App({ docElement }) {
   const [questions, setQuestions] = useState([]);
   const answers = [];
   const [userId, setUserId] = useState(null);
-  console.log("app rerendered");
   const addAnswer = (answer) => {
     answers.push(answer);
-    console.log(userId);
-    return fetch(`http://localhost/superuser/${userId}`, {
+    return fetch(`http://localhost/api/v1/superuser/${userId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -21,14 +19,15 @@ function App({ docElement }) {
     }).then((response) => response.json());
   };
   useEffect(() => {
-    fetch("http://localhost/companies", { method: "get" })
+    fetch("http://localhost/api/v1/companies", { method: "get" })
       .then((res) => res.json())
       .then((data) => {
-        setQuestions(
-          data.find((comp) => {
-            return comp.name === company;
-          }).questions
-        );
+        const comp = data.find((comp) => {
+          return comp.name === company;
+        });
+        if (!comp)
+          return alert("the company you specified does not use our service");
+        setQuestions(comp.questions);
       })
       .catch((err) => {
         console.log(err);
@@ -37,12 +36,62 @@ function App({ docElement }) {
 
   const [submited, setSubmited] = useState(false);
   const [formMessage, setFormMessage] = useState("");
+
+  const ValidateEmail = (email) => {
+    var validRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    if (email.match(validRegex)) return true;
+
+    return false;
+  };
+  function validatePhoneNumber(number) {
+    var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+    return re.test(number);
+  }
   const onSubmitHandler = (e) => {
     e.preventDefault();
     const firstName = document.querySelector(".superuser_firstname").value;
     const lastName = document.querySelector(".superuser_lastname").value;
     const email = document.querySelector(".superuser_email_input").value;
     const number = document.querySelector(".superuser_number_input").value;
+    if (!firstName || !lastName || !email || !number) {
+      if (!firstName) {
+        document
+          .querySelector(".superuser_firstname")
+          .classList.add("superuser_form_error");
+      }
+      if (!lastName) {
+        document
+          .querySelector(".superuser_lastname")
+          .classList.add("superuser_form_error");
+      }
+      if (!email) {
+        document
+          .querySelector(".superuser_email_input")
+          .classList.add("superuser_form_error");
+      }
+      if (!number) {
+        document
+          .querySelector(".superuser_number_input")
+          .classList.add("superuser_form_error");
+      }
+
+      setFormMessage("Some Fields are incomplete");
+      return false;
+    } else if (!ValidateEmail(email)) {
+      document
+        .querySelector(".superuser_email_input")
+        .classList.add("superuser_form_error");
+      setFormMessage("invalid email format");
+      return false;
+    } else if (!validatePhoneNumber(number)) {
+      document
+        .querySelector(".superuser_number_input")
+        .classList.add("superuser_form_error");
+      setFormMessage("invalid phone number");
+      return false;
+    }
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -56,7 +105,7 @@ function App({ docElement }) {
       }),
     };
 
-    fetch("http://localhost/superusers", requestOptions)
+    fetch("http://localhost/api/v1/superusers", requestOptions)
       .then((response) => response.json())
       .then((data) => {
         if (data.message) {
@@ -73,13 +122,17 @@ function App({ docElement }) {
       })
       .catch((err) => {
         console.log("error", err);
-        alert("ERROR! Please Try Again later.");
+        setFormMessage("ERROR! Please Try Again later.");
       });
   };
   return (
     <div className="App">
       {!submited ? (
-        <Form submitHandler={onSubmitHandler} formMessage={formMessage} />
+        <Form
+          submitHandler={onSubmitHandler}
+          formMessage={formMessage}
+          setFormMessage={setFormMessage}
+        />
       ) : (
         <Survey questions={questions} addAnswer={addAnswer} />
       )}

@@ -109,7 +109,7 @@ button {
   font-family: "Roboto";
   border: none;
   outline: none;
-  width: 300px;
+  width: 350px;
   margin: 10px 0;
   height: 50%;
   padding: 10px;
@@ -129,7 +129,7 @@ button {
 }
 
 .superuser_progress {
-  color: white;
+  color: rgb(255, 255, 255);
   margin-top: 20px;
   position: absolute;
   bottom: 15px;
@@ -141,4 +141,8 @@ button {
   height: 10px;
   color: rgb(255, 202, 202);
   font-size: 10px;
+}
+
+.superuser_form_error {
+  background-color: rgb(255, 202, 202);
 }
