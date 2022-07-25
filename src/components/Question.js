@@ -11,7 +11,7 @@ function Question({ text, answeredHandler, totalNumber, currentNumber }) {
         placeholder="Write your answer here"
         required
       ></textarea>
-      <input type="submit" value="submit" />
+      <input type="submit" value="submit" className="superuser_submit" />
       <div className="superuser_progress">{`${currentNumber}/${totalNumber}`}</div>
     </form>
   );

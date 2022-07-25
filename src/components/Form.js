@@ -7,7 +7,7 @@ function Form({ submitHandler, formMessage }) {
       <div>
         <h1 className="superuser_title">Sign Up</h1>
         <p className="superuser_description">
-          Sign Up now to become a SuperUser
+          Sign Up Now To Become a SuperUser
           <p className="superuser_error_message">{formMessage}</p>
         </p>
       </div>

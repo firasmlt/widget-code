@@ -4,6 +4,9 @@
   --main-color: #5271ff;
 }
 
+button {
+  cursor: pointer;
+}
 .superuser_bg {
   background-color: rgba(237, 237, 237);
   font-family: "Roboto";
@@ -88,6 +91,9 @@
   margin-top: 30px;
   cursor: pointer;
 }
+.superuser_submit:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
 
 .superuser_question_form {
   font-family: "Roboto";
@@ -128,6 +134,7 @@
   position: absolute;
   bottom: 15px;
   right: 30px;
+  font-size: 12px;
 }
 
 .superuser_error_message {

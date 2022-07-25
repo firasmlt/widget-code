@@ -30,7 +30,9 @@ function App({ docElement }) {
           }).questions
         );
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const [submited, setSubmited] = useState(false);
@@ -69,7 +71,10 @@ function App({ docElement }) {
         setUserId(data._id);
         setSubmited(true);
       })
-      .catch((err) => console.log("error", err));
+      .catch((err) => {
+        console.log("error", err);
+        alert("ERROR! Please Try Again later.");
+      });
   };
   return (
     <div className="App">

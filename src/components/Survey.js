@@ -4,6 +4,9 @@ import Card from "./UI/Card";
 
 function Survey({ questions, addAnswer }) {
   const [finished, setFinished] = useState(false);
+  const [message, setMessage] = useState(
+    "Thank you for completing the survey, we'll reach out soon."
+  );
   if (questions.length === 0) {
     setFinished(true);
   }
@@ -15,9 +18,9 @@ function Survey({ questions, addAnswer }) {
     addAnswer(answer.value)
       .then((data) => {
         answer.value = "";
-        console.log(data);
         if (data.message) {
-          return alert("error submitting, try again");
+          setMessage("ERROR! try again later.");
+          setFinished(true);
         }
         setIndex((prevIndex) => {
           const newIndex = prevIndex + 1;
@@ -27,7 +30,11 @@ function Survey({ questions, addAnswer }) {
           return newIndex;
         });
       })
-      .catch((err) => console.log("error", err));
+      .catch((err) => {
+        setMessage("ERROR! try again later.");
+        setFinished(true);
+        console.log(err);
+      });
   };
   return (
     <Card>
@@ -47,7 +54,7 @@ function Survey({ questions, addAnswer }) {
             textAlign: "center",
           }}
         >
-          Thank you for completing the survey, we'll reach out soon.
+          {message}
         </p>
       )}
     </Card>
