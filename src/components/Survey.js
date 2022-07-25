@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Question from "./Question";
 import Card from "./UI/Card";
 
-function Survey({ questions, userId, addAnswer }) {
+function Survey({ questions, addAnswer }) {
   const [finished, setFinished] = useState(false);
   if (questions.length === 0) {
     setFinished(true);
@@ -47,7 +47,7 @@ function Survey({ questions, userId, addAnswer }) {
             textAlign: "center",
           }}
         >
-          Thank you for completing the survey, we'll reach out soon:)
+          Thank you for completing the survey, we'll reach out soon.
         </p>
       )}
     </Card>

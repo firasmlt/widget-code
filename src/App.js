@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import Form from "./Form";
-import Survey from "./Survey";
+import Form from "./components/Form";
+import Survey from "./components/Survey";
 
 function App({ docElement }) {
-  const company = docElement.getAttribute("data-company");
+  const company = docElement.getAttribute("data-company").toLowerCase();
   const [questions, setQuestions] = useState([]);
   const answers = [];
   const [userId, setUserId] = useState(null);
@@ -34,6 +34,7 @@ function App({ docElement }) {
   }, []);
 
   const [submited, setSubmited] = useState(false);
+  const [formMessage, setFormMessage] = useState("");
   const onSubmitHandler = (e) => {
     e.preventDefault();
     const firstName = document.querySelector(".superuser_firstname").value;
@@ -44,11 +45,11 @@ function App({ docElement }) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        number: number,
-        company: company,
+        firstName: firstName.toLowerCase().trim(),
+        lastName: lastName.toLowerCase().trim(),
+        email: email.toLowerCase().trim(),
+        number: number.trim(),
+        company: company.toLowerCase().trim(),
         answers: [],
       }),
     };
@@ -57,20 +58,25 @@ function App({ docElement }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.message) {
-          return alert("error submitting, try again");
+          if (data.message.keyPattern.email) {
+            setFormMessage("email already in use");
+            return;
+          } else {
+            setFormMessage("number already in use");
+            return;
+          }
         }
         setUserId(data._id);
         setSubmited(true);
       })
       .catch((err) => console.log("error", err));
-    setSubmited(true);
   };
   return (
     <div className="App">
       {!submited ? (
-        <Form submitHandler={onSubmitHandler} />
+        <Form submitHandler={onSubmitHandler} formMessage={formMessage} />
       ) : (
-        <Survey questions={questions} userId={userId} addAnswer={addAnswer} />
+        <Survey questions={questions} addAnswer={addAnswer} />
       )}
     </div>
   );
