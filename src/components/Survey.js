@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import LoadingSpinner from "./LoadingSpinner";
 import Question from "./Question";
 import Card from "./UI/Card";
 
-function Survey({ questions, addAnswer }) {
+function Survey({ questions, addAnswer, loading, setLoading }) {
   const [finished, setFinished] = useState(false);
   const [message, setMessage] = useState(
     "Thank you for completing the survey, we'll reach out soon."
@@ -38,7 +39,9 @@ function Survey({ questions, addAnswer }) {
   };
   return (
     <Card>
-      {!finished ? (
+      {loading ? (
+        <LoadingSpinner />
+      ) : !finished ? (
         <Question
           answeredHandler={answeredHandler}
           text={questions[index]}
