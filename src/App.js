@@ -4,10 +4,13 @@ import Form from "./components/Form";
 import Survey from "./components/Survey";
 
 function App({ docElement }) {
-  const company = docElement.getAttribute("data-company").toLowerCase();
   const [questions, setQuestions] = useState([]);
-  const answers = [];
   const [userId, setUserId] = useState(null);
+  const [submited, setSubmited] = useState(false);
+  const [formMessage, setFormMessage] = useState("");
+  const company = docElement.getAttribute("data-company").toLowerCase();
+  const answers = [];
+
   const addAnswer = (answer) => {
     answers.push(answer);
     return fetch(`http://localhost/api/v1/superuser/${userId}`, {
@@ -26,16 +29,15 @@ function App({ docElement }) {
           return comp.name === company;
         });
         if (!comp)
-          return alert("the company you specified does not use our service");
+          return setFormMessage(
+            "The company name you used do not use our services"
+          );
         setQuestions(comp.questions);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-
-  const [submited, setSubmited] = useState(false);
-  const [formMessage, setFormMessage] = useState("");
 
   const ValidateEmail = (email) => {
     var validRegex =
@@ -45,7 +47,7 @@ function App({ docElement }) {
 
     return false;
   };
-  function validatePhoneNumber(number) {
+  const validatePhoneNumber = (number) => {
     var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
     return re.test(number);
   }
