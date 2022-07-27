@@ -1,7 +1,13 @@
 import React from "react";
 import Card from "./UI/Card";
 
-function Form({ error, submitHandler, formMessage, setFormMessage }) {
+function Form({
+  numberOfUsers,
+  error,
+  submitHandler,
+  formMessage,
+  setFormMessage,
+}) {
   const onChangeHandler = (e) => {
     if (e.target.value.trim() !== "") {
       setFormMessage("");
@@ -19,6 +25,16 @@ function Form({ error, submitHandler, formMessage, setFormMessage }) {
             <h1 className="superuser_title">Sign Up</h1>
             <p className="superuser_description">
               Sign Up Now To Become a SuperUser
+              {!numberOfUsers || numberOfUsers < 2 ? (
+                <></>
+              ) : (
+                <div className="superuser_waitlist">
+                  <div className="superuser_waitlist_number">
+                    {numberOfUsers}
+                  </div>
+                  users in waitlist
+                </div>
+              )}
               <p className="superuser_error_message">{formMessage}</p>
             </p>
           </div>

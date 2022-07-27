@@ -24,7 +24,7 @@ button {
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   font-family: "Roboto";
-  height: 400px;
+  height: 430px;
   width: 400px;
   background-color: var(--main-color);
   border-radius: 30px;
@@ -179,4 +179,18 @@ button {
   border-top: 10px solid #5271ff; /* Black */
   border-radius: 50%;
   animation: spinner 700ms linear infinite;
+}
+.superuser_waitlist {
+  display: flex;
+  font-family: roboto, Arial, Helvetica, sans-serif;
+  border: 1px rgb(0, 255, 42) solid;
+  margin-top: 5px;
+  gap: 5px;
+  justify-content: center;
+  font-size: 15px;
+  color: rgb(0, 0, 0);
+  padding: 10px 5px;
+}
+.superuser_waitlist_number {
+  color: rgb(0, 255, 42);
 }

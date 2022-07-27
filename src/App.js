@@ -1,3 +1,4 @@
+import { getDefaultNormalizer } from "@testing-library/react";
 import { useEffect, useState } from "react";
 import "./App.css";
 import Form from "./components/Form";
@@ -13,6 +14,46 @@ function App({ docElement }) {
   const [loading, setLoading] = useState(true);
   const company = docElement.getAttribute("data-company").toLowerCase();
   const answers = [];
+  const [numberOfUsers, setNumberOfUsers] = useState(null);
+
+  const getData = async () => {
+    await fetch("http://localhost/api/v1/companies", { method: "get" })
+      .then((res) => res.json())
+      .then((data) => {
+        const comp = data.find((comp) => {
+          return comp.name === company;
+        });
+        if (!comp) {
+          setError(true);
+          setFormMessage(
+            "The company name you used doesn't exist in our services"
+          );
+          return;
+        }
+        setQuestions(comp.questions);
+      })
+      .catch((err) => {
+        setError(true);
+        setFormMessage("error! please try again later.");
+        console.log(err);
+      });
+    await fetch("http://localhost/api/v1/superusers", { method: "get" })
+      .then((res) => res.json())
+      .then((data) => {
+        const numberOfUsers = data.filter((users) => {
+          return users.company === company;
+        }).length;
+        console.log(numberOfUsers);
+        setNumberOfUsers(numberOfUsers);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(true);
+        setFormMessage("error! please try again later.");
+        console.log(err);
+      });
+    setLoading(false);
+  };
 
   const addAnswer = (answer) => {
     answers.push(answer);
@@ -29,29 +70,7 @@ function App({ docElement }) {
     });
   };
   useEffect(() => {
-    fetch("http://localhost/api/v1/companies", { method: "get" })
-      .then((res) => res.json())
-      .then((data) => {
-        const comp = data.find((comp) => {
-          return comp.name === company;
-        });
-        if (!comp) {
-          setError(true);
-          setLoading(false);
-          setFormMessage(
-            "The company name you used doesn't exist in our services"
-          );
-          return;
-        }
-        setQuestions(comp.questions);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(true);
-        setFormMessage("error! please try again later.");
-        setLoading(false);
-        console.log(err);
-      });
+    getData();
   }, []);
 
   const ValidateEmail = (email) => {
@@ -74,7 +93,7 @@ function App({ docElement }) {
     const email = document.querySelector(".superuser_email_input").value;
     const number = document.querySelector(".superuser_number_input").value;
     if (!firstName || !lastName || !email || !number) {
-      setLoading(true);
+      setLoading(false);
       if (!firstName) {
         document
           .querySelector(".superuser_firstname")
@@ -153,6 +172,7 @@ function App({ docElement }) {
       {!submited ? (
         !loading ? (
           <Form
+            numberOfUsers={numberOfUsers}
             error={error}
             submitHandler={onSubmitHandler}
             formMessage={formMessage}
