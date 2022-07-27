@@ -12,7 +12,7 @@ function App({ docElement }) {
   const [formMessage, setFormMessage] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-  const company = docElement.getAttribute("data-company").toLowerCase();
+  const company = docElement.getAttribute("data-company").toLowerCase().trim();
   const answers = [];
   const [numberOfUsers, setNumberOfUsers] = useState(null);
 
@@ -88,10 +88,21 @@ function App({ docElement }) {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     setLoading(true);
-    const firstName = document.querySelector(".superuser_firstname").value;
-    const lastName = document.querySelector(".superuser_lastname").value;
-    const email = document.querySelector(".superuser_email_input").value;
-    const number = document.querySelector(".superuser_number_input").value;
+    const firstName = document
+      .querySelector(".superuser_firstname")
+      .value.toLowerCase()
+      .trim();
+    const lastName = document
+      .querySelector(".superuser_lastname")
+      .value.toLowerCase()
+      .trim();
+    const email = document
+      .querySelector(".superuser_email_input")
+      .value.toLowerCase()
+      .trim();
+    const number = document
+      .querySelector(".superuser_number_input")
+      .value.trim();
     if (!firstName || !lastName || !email || !number) {
       setLoading(false);
       if (!firstName) {
@@ -136,11 +147,11 @@ function App({ docElement }) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        firstName: firstName.toLowerCase().trim(),
-        lastName: lastName.toLowerCase().trim(),
-        email: email.toLowerCase().trim(),
-        number: number.trim(),
-        company: company.toLowerCase().trim(),
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        number: number,
+        company: company,
         answers: [],
       }),
     };
@@ -150,6 +161,7 @@ function App({ docElement }) {
       .then((data) => {
         setLoading(false);
         if (data.message) {
+          console.log(data.message);
           if (data.message.keyPattern.email) {
             setFormMessage("email already in use");
             return;
