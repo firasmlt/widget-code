@@ -159,6 +159,9 @@ button {
   color: black;
   font-weight: bold;
 }
+.superuser_signup_message > a:hover {
+  color: rgb(24, 24, 24);
+}
 
 /* loading animation */
 @keyframes spinner {
