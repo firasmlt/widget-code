@@ -1,4 +1,3 @@
-import { getDefaultNormalizer } from "@testing-library/react";
 import { useEffect, useState } from "react";
 import "./App.css";
 import Form from "./components/Form";
@@ -17,56 +16,57 @@ function App({ docElement }) {
   const [numberOfUsers, setNumberOfUsers] = useState(null);
 
   const getData = async () => {
-    await fetch("http://localhost/api/v1/companies", { method: "get" })
-      .then((res) => res.json())
-      .then((data) => {
-        const comp = data.find((comp) => {
-          return comp.name === company;
-        });
-        if (!comp) {
+    await Promise.all([
+      fetch("http://localhost/api/v1/companies", { method: "get" })
+        .then((res) => res.json())
+        .then((data) => {
+          const comp = data.find((comp) => {
+            return comp.name === company;
+          });
+          if (!comp) {
+            setError(true);
+            setFormMessage(
+              "The company name you used doesn't exist in our services"
+            );
+            return;
+          }
+          setQuestions(comp.questions);
+        })
+        .catch((err) => {
           setError(true);
-          setFormMessage(
-            "The company name you used doesn't exist in our services"
-          );
-          return;
-        }
-        setQuestions(comp.questions);
-      })
-      .catch((err) => {
-        setError(true);
-        setFormMessage("error! please try again later.");
-        console.log(err);
-      });
-    await fetch("http://localhost/api/v1/superusers", { method: "get" })
-      .then((res) => res.json())
-      .then((data) => {
-        const numberOfUsers = data.filter((users) => {
-          return users.company === company;
-        }).length;
-        console.log(numberOfUsers);
-        setNumberOfUsers(numberOfUsers);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(true);
-        setFormMessage("error! please try again later.");
-        console.log(err);
-      });
+          setFormMessage("error! please try again later.");
+          console.log(err);
+        }),
+      await fetch("http://localhost/api/v1/superusers", { method: "get" })
+        .then((res) => res.json())
+        .then((data) => {
+          const numberOfUsers = data.filter((users) => {
+            return users.company === company;
+          }).length;
+          setNumberOfUsers(numberOfUsers);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(true);
+          setFormMessage("error! please try again later.");
+          console.log(err);
+        }),
+    ]);
     setLoading(false);
   };
 
   const addAnswer = (answer) => {
-    answers.push(answer);
     setLoading(true);
+    answers.push(answer);
     return fetch(`http://localhost/api/v1/superuser/${userId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         answers: answers,
       }),
-    }).then((response) => {
+    }).then((res) => {
       setLoading(false);
-      return response.json();
+      return res.json();
     });
   };
   useEffect(() => {
@@ -76,10 +76,7 @@ function App({ docElement }) {
   const ValidateEmail = (email) => {
     var validRegex =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-    if (email.match(validRegex)) return true;
-
-    return false;
+    return email.match(validRegex);
   };
   const validatePhoneNumber = (number) => {
     var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
@@ -147,11 +144,11 @@ function App({ docElement }) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        number: number,
-        company: company,
+        firstName,
+        lastName,
+        email,
+        number,
+        company,
         answers: [],
       }),
     };
