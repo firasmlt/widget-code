@@ -32,7 +32,7 @@ function Form({
                   <div className="superuser_waitlist_number">
                     {numberOfUsers}
                   </div>
-                  users in waitlist
+                  Superusers in waitlist
                 </div>
               )}
               <p className="superuser_error_message">{formMessage}</p>

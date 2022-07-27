@@ -41,8 +41,9 @@ button {
   text-align: center;
   color: white;
   height: 100%;
-  padding: 10px 0px;
+  padding: 0px;
   width: 80%;
+  margin-top: 0px;
 }
 .superuser_card > div {
   font-family: "Roboto";
@@ -88,7 +89,7 @@ button {
   border: none;
   padding: 10px 20px;
   border-radius: 30px;
-  margin-top: 30px;
+  margin-top: 15px;
   cursor: pointer;
 }
 .superuser_submit:hover {
@@ -183,14 +184,19 @@ button {
 .superuser_waitlist {
   display: flex;
   font-family: roboto, Arial, Helvetica, sans-serif;
-  border: 1px rgb(0, 255, 42) solid;
+  border: 1px #002fff solid;
   margin-top: 5px;
+  margin-bottom: 0px;
   gap: 5px;
   justify-content: center;
   font-size: 15px;
-  color: rgb(24, 24, 24);
+  color: #002fff;
   padding: 10px 5px;
+  font-weight: bold;
+  background-color: hsl(229, 100%, 85%);
+  align-items: center;
 }
 .superuser_waitlist_number {
-  color: rgb(0, 255, 42);
+  color: rgb(255, 1, 1);
+  font-size: 18px;
 }
