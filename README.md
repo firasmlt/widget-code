@@ -1,3 +1,3 @@
 # widget source code
 
-I currently am developing this widget for a client
+this widget is still under development
