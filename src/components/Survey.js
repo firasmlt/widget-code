@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "./UI/LoadingSpinner";
 import Question from "./Question";
 import Card from "./UI/Card";
 
@@ -8,15 +8,14 @@ function Survey({ questions, addAnswer, loading, setLoading }) {
   const [message, setMessage] = useState(
     "Thank you for completing the survey, we'll reach out soon."
   );
+
   if (questions.length === 0) {
     setFinished(true);
   }
   const [index, setIndex] = useState(0);
 
-  const answeredHandler = (e) => {
-    e.preventDefault();
-    const answer = document.querySelector(".superuser_answer");
-    addAnswer(answer.value)
+  const answeredHandler = (answer) => {
+    addAnswer(answer)
       .then((res) => {
         console.log(res);
         if (res.status === "fail") {
@@ -31,8 +30,7 @@ function Survey({ questions, addAnswer, loading, setLoading }) {
           }
           return newIndex;
         });
-        answer.value = "";
-        setLoading(false);
+        answer = "";
       })
       .catch((err) => {
         setMessage("ERROR! try again later.");
@@ -51,6 +49,7 @@ function Survey({ questions, addAnswer, loading, setLoading }) {
           text={questions[index]}
           totalNumber={questions.length}
           currentNumber={index + 1}
+          setLoading={setLoading}
         />
       ) : (
         <p

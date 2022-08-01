@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-function Question({ text, answeredHandler, totalNumber, currentNumber }) {
+function Question({
+  text,
+  answeredHandler,
+  totalNumber,
+  currentNumber,
+  setLoading,
+}) {
   const [message, setMessage] = useState("");
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+  const answerRef = useRef();
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        if (
-          document.querySelector(".superuser_answer").value.trim().length < 10
-        )
+        const answer = answerRef.current.value;
+        if (answer.trim().length < 10)
           return setMessage("Your answer must be at least 10 caracters long.");
         setMessage("");
-        answeredHandler(e);
+        answeredHandler(answer);
       }}
       className="superuser_question_form"
     >
@@ -21,6 +30,7 @@ function Question({ text, answeredHandler, totalNumber, currentNumber }) {
       <textarea
         className="superuser_answer"
         placeholder="Write your answer here"
+        ref={answerRef}
       ></textarea>
       <p className="superuser_error_message">{message}</p>
       <input type="submit" value="submit" className="superuser_submit" />

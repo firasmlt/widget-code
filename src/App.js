@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Form from "./components/Form";
-import LoadingSpinner from "./components/LoadingSpinner";
+import LoadingSpinner from "./components/UI/LoadingSpinner";
 import Survey from "./components/Survey";
 
 function App({ docElement }) {
@@ -81,61 +81,38 @@ function App({ docElement }) {
     var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
     return re.test(number);
   };
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
+  const onSubmitHandler = (firstName, lastName, email, number) => {
     setLoading(true);
-    const firstName = document
-      .querySelector(".superuser_firstname")
-      .value.toLowerCase()
-      .trim();
-    const lastName = document
-      .querySelector(".superuser_lastname")
-      .value.toLowerCase()
-      .trim();
-    const email = document
-      .querySelector(".superuser_email_input")
-      .value.toLowerCase()
-      .trim();
-    const number = document
-      .querySelector(".superuser_number_input")
-      .value.trim();
-    if (!firstName || !lastName || !email || !number) {
+    if (
+      !firstName.value.trim() ||
+      !lastName.value.trim() ||
+      !email.value.trim() ||
+      !number.value.trim()
+    ) {
       setLoading(false);
-      if (!firstName) {
-        document
-          .querySelector(".superuser_firstname")
-          .classList.add("superuser_form_error");
+      if (!firstName.value.trim()) {
+        firstName.classList.add("superuser_form_error");
       }
-      if (!lastName) {
-        document
-          .querySelector(".superuser_lastname")
-          .classList.add("superuser_form_error");
+      if (!lastName.value.trim()) {
+        lastName.classList.add("superuser_form_error");
       }
-      if (!email) {
-        document
-          .querySelector(".superuser_email_input")
-          .classList.add("superuser_form_error");
+      if (!email.value.trim()) {
+        email.classList.add("superuser_form_error");
       }
-      if (!number) {
-        document
-          .querySelector(".superuser_number_input")
-          .classList.add("superuser_form_error");
+      if (!number.value.trim()) {
+        number.classList.add("superuser_form_error");
       }
 
       setFormMessage("Some Fields are incomplete");
       return false;
-    } else if (!ValidateEmail(email)) {
+    } else if (!ValidateEmail(email.value)) {
       setLoading(false);
-      document
-        .querySelector(".superuser_email_input")
-        .classList.add("superuser_form_error");
+      email.classList.add("superuser_form_error");
       setFormMessage("invalid email format");
       return false;
-    } else if (!validatePhoneNumber(number)) {
+    } else if (!validatePhoneNumber(number.value)) {
       setLoading(false);
-      document
-        .querySelector(".superuser_number_input")
-        .classList.add("superuser_form_error");
+      number.classList.add("superuser_form_error");
       setFormMessage("invalid phone number");
       return false;
     }
@@ -143,10 +120,10 @@ function App({ docElement }) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        firstName,
-        lastName,
-        email,
-        number,
+        firstName: firstName.value,
+        lastName: lastName.value,
+        email: email.value,
+        number: number.value,
         company,
         answers: [],
       }),
