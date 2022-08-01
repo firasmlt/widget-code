@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
 import Question from "./Question";
 import Card from "./UI/Card";
@@ -17,11 +17,12 @@ function Survey({ questions, addAnswer, loading, setLoading }) {
     e.preventDefault();
     const answer = document.querySelector(".superuser_answer");
     addAnswer(answer.value)
-      .then((data) => {
-        answer.value = "";
-        if (data.message) {
-          setMessage("ERROR! try again later.");
+      .then((res) => {
+        console.log(res);
+        if (res.status === "fail") {
           setFinished(true);
+          setMessage("ERROR! try again later.");
+          return;
         }
         setIndex((prevIndex) => {
           const newIndex = prevIndex + 1;
@@ -30,10 +31,13 @@ function Survey({ questions, addAnswer, loading, setLoading }) {
           }
           return newIndex;
         });
+        answer.value = "";
+        setLoading(false);
       })
       .catch((err) => {
         setMessage("ERROR! try again later.");
         setFinished(true);
+        setLoading(false);
         console.log(err);
       });
   };

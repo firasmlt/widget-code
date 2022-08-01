@@ -8,10 +8,8 @@ function Question({ text, answeredHandler, totalNumber, currentNumber }) {
         e.preventDefault();
         if (
           document.querySelector(".superuser_answer").value.trim().length < 10
-        ) {
-          setMessage("your answer must be at least 10 caracters long.");
-          return;
-        }
+        )
+          return setMessage("Your answer must be at least 10 caracters long.");
         setMessage("");
         answeredHandler(e);
       }}

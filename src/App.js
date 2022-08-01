@@ -12,14 +12,14 @@ function App({ docElement }) {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const company = docElement.getAttribute("data-company").toLowerCase().trim();
-  const answers = [];
-  const [numberOfUsers, setNumberOfUsers] = useState(null);
+  const [numberOfUsers, setNumberOfUsers] = useState(0);
 
   const getData = async () => {
     await Promise.all([
       fetch("http://localhost/api/v1/companies", { method: "get" })
         .then((res) => res.json())
-        .then((data) => {
+        .then((res) => {
+          const data = res.data;
           const comp = data.find((comp) => {
             return comp.name === company;
           });
@@ -39,7 +39,8 @@ function App({ docElement }) {
         }),
       await fetch("http://localhost/api/v1/superusers", { method: "get" })
         .then((res) => res.json())
-        .then((data) => {
+        .then((res) => {
+          const data = res.data;
           const numberOfUsers = data.filter((users) => {
             return users.company === company;
           }).length;
@@ -57,21 +58,19 @@ function App({ docElement }) {
 
   const addAnswer = (answer) => {
     setLoading(true);
-    answers.push(answer);
-    return fetch(`http://localhost/api/v1/superuser/${userId}`, {
+    return fetch(`http://localhost/api/v1/superusers/addAnswer/${userId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        answers: answers,
+        answer: answer,
       }),
     }).then((res) => {
-      setLoading(false);
       return res.json();
     });
   };
   useEffect(() => {
     getData();
-  }, []);
+  });
 
   const ValidateEmail = (email) => {
     var validRegex =
@@ -155,20 +154,27 @@ function App({ docElement }) {
 
     fetch("http://localhost/api/v1/superusers", requestOptions)
       .then((response) => response.json())
-      .then((data) => {
-        setLoading(false);
-        if (data.message) {
-          console.log(data.message);
-          if (data.message.keyPattern.email) {
-            setFormMessage("email already in use");
-            return;
-          } else {
-            setFormMessage("number already in use");
-            return;
+      .then((res) => {
+        console.log(res);
+
+        if (res.status === "fail") {
+          setLoading(false);
+          if (
+            res.message == "Superuser validation failed: email: invalid email"
+          ) {
+            return setFormMessage("invalid email format");
+          }
+          if (res.message === "Duplicate field value: email") {
+            return setFormMessage("email already in use");
+          } else if (res.message === "Duplicate field value: number") {
+            return setFormMessage("number already in use");
+          } else if (res.message === "email: invalid") {
+            return setFormMessage("invalid email");
           }
         }
-        setUserId(data._id);
+        setUserId(res.data._id);
         setSubmited(true);
+        setLoading(false);
       })
       .catch((err) => {
         setLoading(false);

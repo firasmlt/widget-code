@@ -25,7 +25,7 @@ function Form({
             <h1 className="superuser_title">Sign Up</h1>
             <p className="superuser_description">
               Sign Up Now To Become a SuperUser
-              {!numberOfUsers || numberOfUsers < 2 ? (
+              {numberOfUsers < 2 ? (
                 <></>
               ) : (
                 <div className="superuser_waitlist">
