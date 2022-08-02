@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
-import LoadingSpinner from "./UI/LoadingSpinner";
 import Question from "./Question";
 import Card from "./UI/Card";
+import Checkmark from "./UI/Checkmark";
 
-function Survey({ questions, addAnswer, loading, setLoading }) {
+function Survey({ questions, addAnswer }) {
   const [finished, setFinished] = useState(false);
   const [message, setMessage] = useState(
     "Thank you for completing the survey, we'll reach out soon."
   );
+  const [checkmarkFinished, setCheckmarkFinished] = useState(false);
 
   if (questions.length === 0) {
     setFinished(true);
   }
   const [index, setIndex] = useState(0);
 
+  useEffect(() => {}, [index]);
+
   const answeredHandler = (answer) => {
+    setCheckmarkFinished(false);
     addAnswer(answer)
       .then((res) => {
         console.log(res);
@@ -35,21 +39,20 @@ function Survey({ questions, addAnswer, loading, setLoading }) {
       .catch((err) => {
         setMessage("ERROR! try again later.");
         setFinished(true);
-        setLoading(false);
+        setCheckmarkFinished(true);
         console.log(err);
       });
   };
   return (
     <Card>
-      {loading ? (
-        <LoadingSpinner />
+      {!checkmarkFinished ? (
+        <Checkmark setCheckmarkFinished={setCheckmarkFinished} />
       ) : !finished ? (
         <Question
           answeredHandler={answeredHandler}
           text={questions[index]}
           totalNumber={questions.length}
           currentNumber={index + 1}
-          setLoading={setLoading}
         />
       ) : (
         <p

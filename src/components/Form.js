@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import Card from "./UI/Card";
-
 function Form({
   numberOfUsers,
   error,

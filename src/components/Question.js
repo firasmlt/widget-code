@@ -1,16 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
-function Question({
-  text,
-  answeredHandler,
-  totalNumber,
-  currentNumber,
-  setLoading,
-}) {
+function Question({ text, answeredHandler, totalNumber, currentNumber }) {
   const [message, setMessage] = useState("");
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+
   const answerRef = useRef();
   return (
     <form

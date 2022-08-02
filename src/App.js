@@ -3,7 +3,6 @@ import "./App.css";
 import Form from "./components/Form";
 import LoadingSpinner from "./components/UI/LoadingSpinner";
 import Survey from "./components/Survey";
-
 function App({ docElement }) {
   const [questions, setQuestions] = useState([]);
   const [userId, setUserId] = useState(null);
