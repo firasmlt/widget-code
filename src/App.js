@@ -70,7 +70,7 @@ function App({ docElement }) {
   };
   useEffect(() => {
     getData();
-  });
+  }, []);
 
   const ValidateEmail = (email) => {
     var validRegex =
