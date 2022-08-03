@@ -80,13 +80,20 @@ function App({ docElement }) {
     var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
     return re.test(number);
   };
-  const onSubmitHandler = async (firstName, lastName, email, number) => {
+  const onSubmitHandler = async (
+    firstName,
+    lastName,
+    email,
+    number,
+    userType
+  ) => {
     try {
       if (
         !firstName.value.trim() ||
         !lastName.value.trim() ||
         !email.value.trim() ||
-        !number.value.trim()
+        !number.value.trim() ||
+        !userType
       ) {
         if (!firstName.value.trim()) {
           firstName.classList.add("superuser_form_error");
@@ -121,6 +128,7 @@ function App({ docElement }) {
           email: email.value,
           number: number.value,
           company,
+          userType,
           answers: [],
         }),
       };

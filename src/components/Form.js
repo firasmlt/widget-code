@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState, useRef } from "react";
 import Card from "./UI/Card";
 function Form({
   numberOfUsers,
@@ -11,7 +11,7 @@ function Form({
   const lastNameInputRef = useRef();
   const emailInputRef = useRef();
   const numberInputRef = useRef();
-
+  const [userType, setUserType] = useState("");
   const onChangeHandler = (e) => {
     if (e.target.value.trim() !== "") {
       setFormMessage("");
@@ -21,13 +21,17 @@ function Form({
     }
   };
 
+  const typeChangeHandler = (e) => {
+    setUserType(e.target.value);
+  };
   const onSubmitHandler = (e) => {
     e.preventDefault();
     submitHandler(
       firstNameInputRef.current,
       lastNameInputRef.current,
       emailInputRef.current,
-      numberInputRef.current
+      numberInputRef.current,
+      userType
     );
   };
 
@@ -38,7 +42,7 @@ function Form({
           <div>
             <h1 className="superuser_title">Sign Up</h1>
             <p className="superuser_description">
-              Sign Up Now To Become a SuperUser
+              Sign Up Now To Become a Superuser
               {numberOfUsers < 2 ? (
                 <></>
               ) : (
@@ -83,8 +87,32 @@ function Form({
               className="superuser_input superuser_number_input"
               ref={numberInputRef}
             />
+            <div className="superuser_wrapper">
+              <input
+                type="radio"
+                name="userType"
+                value={"superuser"}
+                id="option-1"
+                onClick={typeChangeHandler}
+              />
+              <input
+                type="radio"
+                name="userType"
+                value={"normaluser"}
+                id="option-2"
+                onClick={typeChangeHandler}
+              />
+              <label htmlFor="option-1" className="option option-1">
+                <div className="dot"></div>
+                <span>Superuser</span>
+              </label>
+              <label htmlFor="option-2" className="option option-2">
+                <div className="dot"></div>
+                <span>Normal User</span>
+              </label>
+            </div>
             <input type="submit" value="Submit" className="superuser_submit" />
-          </form>{" "}
+          </form>
         </>
       ) : (
         <div>
