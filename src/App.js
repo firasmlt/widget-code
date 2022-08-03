@@ -58,7 +58,7 @@ function App({ docElement }) {
   const addAnswer = (answer) => {
     setLoading(true);
     return fetch(`http://localhost/api/v1/superusers/addAnswer/${userId}`, {
-      method: "PATCH",
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         answer: answer,
@@ -80,83 +80,76 @@ function App({ docElement }) {
     var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
     return re.test(number);
   };
-  const onSubmitHandler = (firstName, lastName, email, number) => {
-    setLoading(true);
-    if (
-      !firstName.value.trim() ||
-      !lastName.value.trim() ||
-      !email.value.trim() ||
-      !number.value.trim()
-    ) {
-      setLoading(false);
-      if (!firstName.value.trim()) {
-        firstName.classList.add("superuser_form_error");
-      }
-      if (!lastName.value.trim()) {
-        lastName.classList.add("superuser_form_error");
-      }
-      if (!email.value.trim()) {
-        email.classList.add("superuser_form_error");
-      }
-      if (!number.value.trim()) {
-        number.classList.add("superuser_form_error");
-      }
-
-      setFormMessage("Some Fields are incomplete");
-      return false;
-    } else if (!ValidateEmail(email.value)) {
-      setLoading(false);
-      email.classList.add("superuser_form_error");
-      setFormMessage("invalid email format");
-      return false;
-    } else if (!validatePhoneNumber(number.value)) {
-      setLoading(false);
-      number.classList.add("superuser_form_error");
-      setFormMessage("invalid phone number");
-      return false;
-    }
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        firstName: firstName.value,
-        lastName: lastName.value,
-        email: email.value,
-        number: number.value,
-        company,
-        answers: [],
-      }),
-    };
-
-    fetch("http://localhost/api/v1/superusers", requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-
-        if (res.status === "fail") {
-          setLoading(false);
-          if (
-            res.message == "Superuser validation failed: email: invalid email"
-          ) {
-            return setFormMessage("invalid email format");
-          }
-          if (res.message === "Duplicate field value: email") {
-            return setFormMessage("email already in use");
-          } else if (res.message === "Duplicate field value: number") {
-            return setFormMessage("number already in use");
-          } else if (res.message === "email: invalid") {
-            return setFormMessage("invalid email");
-          }
+  const onSubmitHandler = async (firstName, lastName, email, number) => {
+    try {
+      if (
+        !firstName.value.trim() ||
+        !lastName.value.trim() ||
+        !email.value.trim() ||
+        !number.value.trim()
+      ) {
+        if (!firstName.value.trim()) {
+          firstName.classList.add("superuser_form_error");
         }
-        setUserId(res.data._id);
-        setSubmited(true);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log("error", err);
-        setFormMessage("ERROR! Please Try Again later.");
-      });
+        if (!lastName.value.trim()) {
+          lastName.classList.add("superuser_form_error");
+        }
+        if (!email.value.trim()) {
+          email.classList.add("superuser_form_error");
+        }
+        if (!number.value.trim()) {
+          number.classList.add("superuser_form_error");
+        }
+
+        setFormMessage("Some Fields are incomplete");
+        return false;
+      } else if (!ValidateEmail(email.value)) {
+        email.classList.add("superuser_form_error");
+        setFormMessage("invalid email format");
+        return false;
+      } else if (!validatePhoneNumber(number.value)) {
+        number.classList.add("superuser_form_error");
+        setFormMessage("invalid phone number");
+        return false;
+      }
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: firstName.value,
+          lastName: lastName.value,
+          email: email.value,
+          number: number.value,
+          company,
+          answers: [],
+        }),
+      };
+
+      const res = await fetch(
+        "http://localhost/api/v1/superusers",
+        requestOptions
+      );
+      const data = await res.json();
+      if (data.status === "fail") {
+        if (
+          data.message === "Superuser validation failed: email: invalid email"
+        ) {
+          return setFormMessage("invalid email format");
+        }
+        if (data.message === "Duplicate field value: email") {
+          return setFormMessage("email already in use");
+        } else if (data.message === "Duplicate field value: number") {
+          return setFormMessage("number already in use");
+        } else if (data.message === "email: invalid") {
+          return setFormMessage("invalid email");
+        }
+      }
+      setUserId(data.data._id);
+      setSubmited(true);
+    } catch (err) {
+      console.log("error", err);
+      setFormMessage("ERROR! Please Try Again later.");
+    }
   };
   return (
     <div className="App">

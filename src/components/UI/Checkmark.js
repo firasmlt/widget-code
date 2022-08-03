@@ -14,14 +14,13 @@ const Checkmark = ({ setCheckmarkFinished }) => {
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 52 52"
       >
-        {" "}
         <circle
           className="superuser_checkmark__circle"
           cx="26"
           cy="26"
           r="25"
           fill="none"
-        />{" "}
+        />
         <path
           className="superuser_checkmark__check"
           fill="none"

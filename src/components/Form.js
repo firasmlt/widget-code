@@ -23,8 +23,6 @@ function Form({
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log("hey");
-    console.log(firstNameInputRef);
     submitHandler(
       firstNameInputRef.current,
       lastNameInputRef.current,
