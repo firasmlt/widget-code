@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import Card from "./Card";
 import "./Checkmark.css";
+
 const Checkmark = ({ setCheckmarkFinished }) => {
   useEffect(() => {
     setTimeout(() => {
@@ -8,7 +8,7 @@ const Checkmark = ({ setCheckmarkFinished }) => {
     }, 2000);
   }, []);
   return (
-    <Card>
+    <>
       <svg
         className="superuser_checkmark"
         xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +27,7 @@ const Checkmark = ({ setCheckmarkFinished }) => {
           d="M14.1 27.2l7.1 7.2 16.7-16.8"
         />
       </svg>
-    </Card>
+    </>
   );
 };
 
