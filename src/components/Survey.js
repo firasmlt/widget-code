@@ -21,7 +21,6 @@ function Survey({ questions, addAnswer }) {
     setCheckmarkFinished(false);
     addAnswer(answer)
       .then((res) => {
-        console.log(res);
         if (res.status === "fail") {
           setFinished(true);
           setMessage("ERROR! try again later.");
