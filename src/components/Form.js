@@ -1,5 +1,7 @@
 import React, { useState, useRef } from "react";
 import Card from "./UI/Card";
+import Waitlist from "./Waitlist";
+import styles from "./Form.module.css";
 function Form({
   numberOfUsers,
   error,
@@ -40,36 +42,27 @@ function Form({
       {!error ? (
         <>
           <div>
-            <h1 className="superuser_title">Sign Up</h1>
-            <p className="superuser_description">
+            <h1 className={styles.title}>Sign Up</h1>
+            <p className={styles.description}>
               Sign Up Now To Become a Superuser
-              {numberOfUsers < 2 ? (
-                <></>
-              ) : (
-                <div className="superuser_waitlist">
-                  <div className="superuser_waitlist_number">
-                    {numberOfUsers}
-                  </div>
-                  Superusers in waitlist
-                </div>
-              )}
-              <p className="superuser_error_message">{formMessage}</p>
+              <Waitlist numberOfUsers={numberOfUsers} />
+              <p className={styles.error_message}>{formMessage}</p>
             </p>
           </div>
-          <form onSubmit={onSubmitHandler} className="superuser_form">
-            <div className="superuser_name">
+          <form onSubmit={onSubmitHandler} className={styles.form}>
+            <div className={styles.name}>
               <input
                 onChange={onChangeHandler}
                 type="text"
                 placeholder="First Name"
-                className="superuser_input superuser_name_input superuser_firstname"
+                className={`${styles.input} ${styles.name_input} ${styles.firstname}`}
                 ref={firstNameInputRef}
               />
               <input
                 onChange={onChangeHandler}
                 type="text"
                 placeholder="Last Name"
-                className="superuser_input superuser_name_input superuser_lastname"
+                className={`${styles.input} ${styles.name_input} ${styles.lastname}`}
                 ref={lastNameInputRef}
               />
             </div>
@@ -77,14 +70,14 @@ function Form({
               onChange={onChangeHandler}
               type="text"
               placeholder="Email address"
-              className="superuser_input superuser_email_input"
+              className={`${styles.input} ${styles.email_input}`}
               ref={emailInputRef}
             />
             <input
               onChange={onChangeHandler}
               type="text"
               placeholder="Phone number (xxx)xxx-xxxx "
-              className="superuser_input superuser_number_input"
+              className={`${styles.input} ${styles.number_input}`}
               ref={numberInputRef}
             />
             <div className="superuser_wrapper">
@@ -111,7 +104,7 @@ function Form({
                 <span>Normal User</span>
               </label>
             </div>
-            <input type="submit" value="Submit" className="superuser_submit" />
+            <input type="submit" value="Submit" className={styles.submit} />
           </form>
         </>
       ) : (
@@ -123,7 +116,7 @@ function Form({
           {formMessage.toLowerCase() === "error! please try again later." ? (
             <></>
           ) : (
-            <div className="superuser_signup_message">
+            <div className="signup_message">
               <a href="#">sign up</a>
             </div>
           )}

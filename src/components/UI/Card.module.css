@@ -1,0 +1,38 @@
+.background {
+  background-color: rgba(237, 237, 237);
+  font-family: "Roboto";
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  font-family: "Roboto";
+  height: 430px;
+  width: 400px;
+  background-color: var(--main-color);
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+  border: 1px solid rgb(255, 255, 255);
+}
+
+.card > div {
+  font-family: "Roboto";
+  text-align: center;
+  color: white;
+}
+.card > div > h1 {
+  font-family: "Roboto";
+  font-size: 40px;
+}

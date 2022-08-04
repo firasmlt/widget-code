@@ -160,7 +160,7 @@ function App({ docElement }) {
     }
   };
   return (
-    <div className="App">
+    <>
       {!submited ? (
         !loading ? (
           <Form
@@ -181,7 +181,7 @@ function App({ docElement }) {
           setLoading={setLoading}
         />
       )}
-    </div>
+    </>
   );
 }
 

@@ -1,8 +1,7 @@
 import React, { useRef, useState } from "react";
-
+import styles from "./Question.module.css";
 function Question({ text, answeredHandler, totalNumber, currentNumber }) {
   const [message, setMessage] = useState("");
-
   const answerRef = useRef();
   return (
     <form
@@ -14,19 +13,13 @@ function Question({ text, answeredHandler, totalNumber, currentNumber }) {
         setMessage("");
         answeredHandler(answer);
       }}
-      className="superuser_question_form"
+      className={styles.survey_form}
     >
-      <label className="superuser_question">
-        {text.toLowerCase().replace(/\?/g, "")}?
-      </label>
-      <textarea
-        className="superuser_answer"
-        placeholder="Write your answer here"
-        ref={answerRef}
-      ></textarea>
-      <p className="superuser_error_message">{message}</p>
-      <input type="submit" value="submit" className="superuser_submit" />
-      <div className="superuser_progress">{`${currentNumber}/${totalNumber}`}</div>
+      <label>{text.toLowerCase().replace(/\?/g, "")}?</label>
+      <textarea placeholder="Write your answer here" ref={answerRef}></textarea>
+      <p className={styles.survey_error}>{message}</p>
+      <input type="submit" value="submit" />
+      <div className={styles.progress}>{`${currentNumber}/${totalNumber}`}</div>
     </form>
   );
 }
