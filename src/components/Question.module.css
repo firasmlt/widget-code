@@ -1,0 +1,46 @@
+.survey_form {
+  font-family: "Roboto";
+  height: 200px;
+  padding: 20px;
+}
+.survey_form > label {
+  font-family: "Roboto";
+  color: white;
+  font-size: 20px;
+}
+.survey_form > textarea {
+  font-family: "Roboto";
+  border: none;
+  outline: none;
+  width: 350px;
+  margin: 10px 0;
+  height: 50%;
+  padding: 10px;
+}
+.survey_form > textarea::placeholder {
+  font-family: "Roboto";
+  color: var(--main-color);
+}
+
+.survey_form > input {
+  font-family: "Roboto";
+  color: var(--main-color);
+  background-color: rgb(255, 255, 255);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+}
+
+.progress {
+  color: rgb(255, 255, 255);
+  margin-top: 20px;
+  position: absolute;
+  bottom: 15px;
+  right: 30px;
+  font-size: 12px;
+}
+.survey_error {
+  color: var(--error-color);
+  font-size: 14px;
+  height: 20px;
+}

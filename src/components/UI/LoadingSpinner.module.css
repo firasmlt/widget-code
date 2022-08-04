@@ -1,0 +1,16 @@
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.loadingSpinner {
+  width: 20px;
+  height: 20px;
+  border: 10px solid #e4e4e4;
+  border-top: 10px solid var(--main-color);
+  border-radius: 50%;
+  animation: spinner 700ms linear infinite;
+}

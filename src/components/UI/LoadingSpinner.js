@@ -1,12 +1,10 @@
 import React from "react";
 import Card from "./Card";
-
+import styles from "./LoadingSpinner.module.css";
 export default function LoadingSpinner() {
   return (
     <Card>
-      <div className="spinner-container">
-        <div className="loading-spinner"></div>
-      </div>
+      <div className={styles.loadingSpinner}></div>
     </Card>
   );
 }

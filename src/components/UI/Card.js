@@ -1,9 +1,9 @@
 import React from "react";
-
+import styles from "./Card.module.css";
 function Card(props) {
   return (
-    <div className="superuser_bg">
-      <div className="superuser_card">{props.children}</div>
+    <div className={styles.background}>
+      <div className={styles.card}>{props.children}</div>
     </div>
   );
 }
